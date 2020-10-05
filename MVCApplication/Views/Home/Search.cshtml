@@ -1,0 +1,35 @@
+﻿@model MVCApplication.Models.SearchModel
+
+@{
+    ViewBag.Title = "Search";
+}
+
+<h2>Search Employee Details By ID</h2>
+<div>  Date : @DateTime.Now </div>
+
+
+@using (Html.BeginForm("Search", "Home", FormMethod.Post, new { @class = "form-horizontal", role = "form", id = "SubmitForm" }))
+{
+    <div>
+        <div class="form-group">
+            <div>
+                @Html.LabelFor(model => model.ID,"Search By ID", new { @class = "col-xs-2 control-label" })
+                <div class="col-xs-6">
+                    @Html.TextBoxFor(model => model.ID, new { @class = "form-control", tabindex = "1", placeholder = "Employee ID" })
+                    @Html.ValidationMessageFor(model => model.ID)
+                </div>
+            </div>
+        </div>
+        <div class="panel-footer">
+            <div class="form-group">
+                <button type="submit" class="btn btn-default active" title="Submit" tabindex="8"><span class="glyphicon glyphicon-search"></span>&nbsp;Search By ID</button>
+                <a href="@Url.Action( "Index", "Home" )" class="btn btn-default" title="Cancel" tabindex="9"><span class="glyphicon glyphicon-remove"></span>&nbsp;Cancel</a>
+            </div>
+        </div>
+    </div>
+
+}
+
+
+
+

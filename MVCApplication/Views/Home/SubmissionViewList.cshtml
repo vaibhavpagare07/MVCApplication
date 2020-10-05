@@ -1,0 +1,41 @@
+﻿@model System.Collections.Generic.List<MVCApplication.Models.SubmissionModel>
+
+@{
+    ViewBag.Title = "SubmissionViewList";
+}
+
+<h2>Submission List </h2>            date : @DateTime.Now
+
+<table class="table">
+    <thead><tr><th>Name </th><th> Salary </th><th> Department Name </th><th> Operations </th></tr> </thead>
+    <tbody>
+     
+        @foreach (var ele in Model)
+        {
+
+            
+            <tr>
+                <td>
+                    @ele.Name
+                </td>
+                <td>
+                    @ele.Salary
+                </td>
+                <td>
+                    @ele.Department
+                </td>
+                <td>
+                    @Html.ActionLink("Edit", "Edit", new { id = ele.ID }) |
+                    @Html.ActionLink("Details", "Details", new { id = ele.ID}) |
+                    @Html.ActionLink("Delete", "Delete", new { deleteID = ele.Name }) 
+                    
+                </td>
+        </tr>
+        }
+    </tbody>
+</table>
+
+<a href="@Url.Action("NewEmployee", "Home")" class="btn btn-default" title="Add New Employee">
+    Add New Employee
+</a>  
+

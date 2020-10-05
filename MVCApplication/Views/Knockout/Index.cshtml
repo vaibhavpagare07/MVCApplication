@@ -1,0 +1,193 @@
+﻿
+<div class="navbar navbar-inverse navbar-fixed-top">
+    <div class="container">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            @Html.ActionLink("Application name", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })
+        </div>
+        <div class="navbar-collapse collapse">
+            <div class="nav navbar-nav">
+            </div>
+        </div>
+    </div>
+</div>
+
+
+@*==================================================================================
+       LIST VIEW
+    ==================================================================================*@
+<div data-bind="visible:DisplayMainData">
+    <table class="table table-condensed">
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>Gender</th>
+                <th>Salary</th>
+                <th>Department</th>
+                <th>Operations</th>
+            </tr>
+        </thead>
+        <tbody data-bind="foreach:listEmp">
+
+            <tr>
+                <td data-bind="text:Name"></td>
+                <td data-bind="text:Gender"></td>
+                <td data-bind="text:Salary"></td>
+                <td data-bind="text:Department"></td>
+                <td>
+                    <button class="btn btn-default" data-bind="click: $root.DepartmentDetails">Details</button>
+                    <button class="btn btn-default" data-bind="click: $root.EditEmployee">Edit</button>
+                    <button class="btn btn-default" data-bind="click: $root.DeleteEmployee">Delete</button>
+                </td>
+            </tr>
+
+        </tbody>
+    </table>
+    <button class="btn btn-default" data-bind="click: $root.NewEmployee">Add New Employee</button>
+</div>
+
+
+
+@*==================================================================================
+    ADD NEW EMPLOYEE VIEW
+    ==================================================================================*@
+
+<div id="empform" data-bind="if:EmployeeFormTitle">
+    <div class="spacer" style="height: 10px;"></div>
+    <form data-bind="submit: UpdateEmployee" class="form-horizontal" id="empform">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h2 class="panel-title">
+                    <span class="glyphicon glyphicon-credit-card"></span>&nbsp;<span data-bind="text: EmployeeFormTitle"></span>
+                </h2>
+            </div>
+            <div class="panel-body">
+                @*<div class="form-group">
+                        @Html.Label("ID", "Employee ID", new { @class = "col-xs-2 control-label" })
+                        <div class="col-xs-4">
+                            <input class="form-control" data-bind="value: ID" />
+                        </div>
+                    </div>*@
+            </div>
+            <div class="panel-body">
+                <div class="form-group">
+                    @Html.Label("FirstName", "First Name", new { @class = "col-xs-2 control-label" })
+                    <div class="col-xs-4">
+                        <input class="form-control" data-bind="value: Name" />
+                    </div>
+                </div>
+            </div>
+            <div class="panel-body">
+                <div class="form-group">
+                    @Html.Label("Gender", "Gender", new { @class = "col-xs-2 control-label" })
+                    <div>
+                        <input type="radio" name="flavorGroup" value="Male" data-bind="checked: Gender" /> Male
+                        <input type="radio" name="flavorGroup" value="Female" data-bind="checked: Gender" /> Female
+                    </div>
+                </div>
+            </div>
+            <div class="panel-body">
+                <div class="form-group">
+                    @Html.Label("Salary", "Salary", new { @class = "col-xs-2 control-label" })
+                    <div class="col-xs-4">
+                        <input class="form-control" data-bind="value: Salary" />
+                    </div>
+                </div>
+            </div>
+            <div class="panel-body">
+                <div class="form-group">
+                    @Html.Label("DepartmentID", "DepartmentID", new { @class = "col-xs-2 control-label" })
+                    <div class="col-xs-4">
+                        <!--ko ifnot: isAdd-->
+                         <input class="form-control" data-bind="value: Department" />
+                        <!-- /ko -->
+                        <!--ko if: isAdd-->
+                        <select class="form-control" data-bind="value: Department">
+                            <option value="1">IT</option>
+                            <option value="2">Payroll</option>
+                            <option value="3">HR</option>
+                            <option value="4">Other Department</option>
+                        </select>
+                        <!-- /ko -->
+                    </div>
+                </div>
+
+                <div class="panel-footer">
+                    <div class="form-group">
+                        <div class="col-xs-offset-2 col-xs-8">
+                            <button type="submit" class="btn btn-default active" title="Save Employee">
+                                <span class="glyphicon glyphicon-ok"></span>&nbsp;Save Employee
+                            </button>
+                            <button type="button" id="cancel" class="btn btn-default" title="Cancel" tabindex="11" data-bind="click: Cancel">
+                                <span class="glyphicon glyphicon-remove"></span>&nbsp;Cancel
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+    </form>
+</div>
+
+
+
+@*///////// Department popup  ////////////// *@
+
+<div id="department" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="segmentChooseMdlLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+                <h4 class="modal-title" id="ssegmentChooseMdlLabel">
+                    Department Details
+                </h4>
+            </div>
+            <div class="modal-body">
+                <div style="min-height: 100px; max-height: 250px; overflow: auto;">
+                    <table class="table table-striped table-hover table-condensed">
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>DepartmentName</th>
+                                <th>Location</th>
+                                <th>DepartmentHead</th>
+                            </tr>
+                        </thead>
+                        <tbody data-bind="foreach: Departments">
+
+                            <tr>
+                                <td data-bind="text: ID"></td>
+                                <td data-bind="text: DepartmentName"></td>
+                                <td data-bind="text: Location"></td>
+                                <td data-bind="text: DepartmentHead"></td>
+
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">
+                    Cancel
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/product")
+}
+
+<script type="text/javascript">
+    var app;
+    $(document).ready(function () {
+        app = new SimpleListModel();
+        ko.applyBindings(app);
+    });
+</script>
