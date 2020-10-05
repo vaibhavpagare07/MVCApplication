@@ -24,6 +24,7 @@ namespace MVCApplication.Controllers
          [HttpGet]
         public ActionResult EmployeeList()
         {
+            //return json data
             return Json(repository.GetAll(), JsonRequestBehavior.AllowGet);
         }
 
